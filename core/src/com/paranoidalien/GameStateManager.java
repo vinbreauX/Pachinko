@@ -1,5 +1,8 @@
 package com.paranoidalien;
 
+import com.paranoidalien.gamestates.GameState;
+import com.paranoidalien.gamestates.Play;
+
 import java.util.Stack;
 
 public class GameStateManager {
@@ -37,6 +40,7 @@ public class GameStateManager {
         popState();
         pushState(state);
     }
+
     public void pushState(int state) {
         gameStates.push(getState(state));
     }

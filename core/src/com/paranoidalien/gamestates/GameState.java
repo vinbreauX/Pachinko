@@ -1,7 +1,9 @@
-package com.paranoidalien;
+package com.paranoidalien.gamestates;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.paranoidalien.Game;
+import com.paranoidalien.GameStateManager;
 
 public abstract class GameState {
 

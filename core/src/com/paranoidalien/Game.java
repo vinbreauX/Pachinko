@@ -19,9 +19,27 @@ public class Game implements ApplicationListener {
     private OrthographicCamera cam;
     private OrthographicCamera hudCam;
 
+    private GameStateManager gsm;
+
     @Override
     public void create() {
+        sb = new SpriteBatch();
+        cam = new OrthographicCamera();
+        cam.setToOrtho(false, WIDTH, HEIGHT);
+        hudCam = new OrthographicCamera();
+        hudCam.setToOrtho(false, WIDTH, HEIGHT);
 
+        gsm = new GameStateManager(this);
+    }
+
+    @Override
+    public void render() {
+        accum += Gdx.graphics.getDeltaTime();
+        while (accum >- STEP) {
+            accum -= STEP;
+            gsm.update(STEP);
+            gsm.render();
+        }
     }
 
     @Override
@@ -29,12 +47,6 @@ public class Game implements ApplicationListener {
 
     }
 
-    @Override
-    public void render() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-    }
 
     @Override
     public void pause() {
