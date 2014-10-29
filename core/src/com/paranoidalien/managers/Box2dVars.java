@@ -1,4 +1,4 @@
-package com.paranoidalien;
+package com.paranoidalien.managers;
 
 public class Box2dVars {
 

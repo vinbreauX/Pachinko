@@ -1,10 +1,10 @@
-package com.paranoidalien;
+package com.paranoidalien.main;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.paranoidalien.managers.GameStateManager;
 
 public class Game implements ApplicationListener {
 

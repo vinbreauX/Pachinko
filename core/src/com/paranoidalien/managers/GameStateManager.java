@@ -1,7 +1,8 @@
-package com.paranoidalien;
+package com.paranoidalien.managers;
 
 import com.paranoidalien.gamestates.GameState;
 import com.paranoidalien.gamestates.Play;
+import com.paranoidalien.main.Game;
 
 import java.util.Stack;
 
