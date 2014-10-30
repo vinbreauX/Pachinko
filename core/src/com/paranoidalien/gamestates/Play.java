@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.paranoidalien.entities.RoundPeg;
 import com.paranoidalien.main.Game;
 import com.paranoidalien.managers.Box2dVars;
+import com.paranoidalien.managers.GameContactListener;
 import com.paranoidalien.managers.GameStateManager;
 
 import static com.paranoidalien.managers.Box2dVars.PPM;
@@ -25,6 +26,7 @@ public class Play extends GameState {
         super(gsm);
 
         world = new World(new Vector2(0, gravity), true);
+        world.setContactListener(new GameContactListener());
         b2dr = new Box2DDebugRenderer();
 
         placePegs();
@@ -52,8 +54,9 @@ public class Play extends GameState {
         fdef.shape = cshape;
         fdef.filter.categoryBits = Box2dVars.BIT_BALL;
         fdef.filter.maskBits = Box2dVars.BIT_WALLS | Box2dVars.BIT_PEG;
-        fdef.restitution = 0.4f;
+        fdef.restitution = 0.7f;
         fdef.density = 0.9f;
+        fdef.friction = 0.1f;
         body.createFixture(fdef).setUserData("ball");
     }
 
