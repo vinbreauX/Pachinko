@@ -1,16 +1,18 @@
 package com.paranoidalien.entities;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.paranoidalien.managers.Box2dVars;
 
 import static com.paranoidalien.managers.Box2dVars.PPM;
 
-public class SquarePeg {
+public class RoundPeg {
 
     private BodyDef bdef;
     private FixtureDef fdef;
     private PolygonShape shape;
+    private CircleShape cshape;
 
-    public SquarePeg(int posX, int posY, World world) {
+    public RoundPeg(int posX, int posY, World world) {
 
         bdef = new BodyDef();
 
@@ -19,10 +21,13 @@ public class SquarePeg {
         bdef.type = BodyDef.BodyType.StaticBody;
         Body body = world.createBody(bdef);
 
-        shape = new PolygonShape();
-        shape.setAsBox(5 / PPM, 5 / PPM);
-        fdef.shape = shape;
-        body.createFixture(fdef);
+        cshape = new CircleShape();
+        cshape.setRadius(4 / PPM);
+        fdef.shape = cshape;
+        fdef.filter.categoryBits = Box2dVars.BIT_PEG;
+        fdef.filter.maskBits = Box2dVars.BIT_BALL;
+        body.createFixture(fdef).setUserData("peg");
     }
+
 
 }
