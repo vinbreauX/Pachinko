@@ -1,6 +1,7 @@
 package com.paranoidalien.gamestates;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
@@ -10,6 +11,7 @@ import com.paranoidalien.entities.RoundPeg;
 import com.paranoidalien.main.Game;
 import com.paranoidalien.managers.Box2dVars;
 import com.paranoidalien.managers.GameContactListener;
+import com.paranoidalien.managers.GameInputProcessor;
 import com.paranoidalien.managers.GameStateManager;
 
 import static com.paranoidalien.managers.Box2dVars.PPM;
@@ -31,7 +33,8 @@ public class Play extends GameState {
 
         placePegs();
         placeWalls();
-        dropBall();
+        placeCatchers();
+        dropBall(MathUtils.random(100, 300));
 
         // Set up camera
         b2dcam = new OrthographicCamera();
@@ -39,26 +42,6 @@ public class Play extends GameState {
 
     }
 
-    private void dropBall(){
-
-        BodyDef bdef = new BodyDef();
-        FixtureDef fdef = new FixtureDef();
-
-        bdef.position.set(MathUtils.random(50, 350) / PPM, 790 / PPM);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-
-        // Randomly drop ball
-        Body body = world.createBody(bdef);
-        CircleShape cshape = new CircleShape();
-        cshape.setRadius(13 / PPM);
-        fdef.shape = cshape;
-        fdef.filter.categoryBits = Box2dVars.BIT_BALL;
-        fdef.filter.maskBits = Box2dVars.BIT_WALLS | Box2dVars.BIT_PEG;
-        fdef.restitution = 0.7f;
-        fdef.density = 0.9f;
-        fdef.friction = 0.1f;
-        body.createFixture(fdef).setUserData("ball");
-    }
 
     private void placePegs() {
         // 9 Peg rows
@@ -129,9 +112,53 @@ public class Play extends GameState {
         body2.createFixture(fdef).setUserData("wall");
     }
 
+    private void placeCatchers() {
+        BodyDef bdef;
+        FixtureDef fdef;
+        PolygonShape shape;
+
+        bdef = new BodyDef();
+        fdef = new FixtureDef();
+        shape = new PolygonShape();
+
+        for (int i = 10; i < 100; i = i + 10) {
+            bdef.position.set((Game.WIDTH * i / PPM) / PPM, 0);
+            bdef.type = BodyDef.BodyType.StaticBody;
+            Body body = world.createBody(bdef);
+            shape.setAsBox(5 / PPM, 30 / PPM);
+            fdef.shape = shape;
+            fdef.filter.categoryBits = Box2dVars.BIT_WALLS;
+            fdef.filter.maskBits = Box2dVars.BIT_BALL;
+            body.createFixture(fdef).setUserData("wall");
+            System.out.println("placing catcher");
+        }
+    }
+
     @Override
     public void handleInput() {
 
+
+    }
+
+    private void dropBall(int posX){
+
+        BodyDef bdef = new BodyDef();
+        FixtureDef fdef = new FixtureDef();
+
+        bdef.position.set(posX / PPM, 790 / PPM);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+
+        // Randomly drop ball
+        Body body = world.createBody(bdef);
+        CircleShape cshape = new CircleShape();
+        cshape.setRadius(13 / PPM);
+        fdef.shape = cshape;
+        fdef.filter.categoryBits = Box2dVars.BIT_BALL;
+        fdef.filter.maskBits = Box2dVars.BIT_WALLS | Box2dVars.BIT_PEG;
+        fdef.restitution = 0.7f;
+        fdef.density = 0.9f;
+        fdef.friction = 0.1f;
+        body.createFixture(fdef).setUserData("ball");
     }
 
     @Override
